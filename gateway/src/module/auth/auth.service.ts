@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientKafka, ClientProxy } from '@nestjs/microservices';
 import { User } from '../user/user.dto';
 import { IUser } from '../user/user.interface';
 import { catchError, of } from 'rxjs';
@@ -7,8 +7,8 @@ import { catchError, of } from 'rxjs';
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject('AUTH') private readonly authClient: ClientProxy,
-    @Inject('USER') private readonly userClient: ClientProxy,
+    @Inject('AUTH_SERVICE') private readonly authClient: ClientKafka,
+    @Inject('USER_SERVICE') private readonly userClient: ClientKafka,
   ) {}
 
   async createUser(data: IUser) {

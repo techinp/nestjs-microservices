@@ -8,6 +8,7 @@ export class UserController {
 
   @Get()
   getUsers(): Promise<User[]> {
+    console.log('tte');
     return this.userService.getUsers();
   }
 }

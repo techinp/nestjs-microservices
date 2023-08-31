@@ -1,18 +1,26 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { User } from '../user/user.dto';
 import { UserService } from '../user/user.service';
 import { IUser } from '../user/user.interface';
+import { ClientKafka } from '@nestjs/microservices';
 
 @Controller('auth')
 export class AuthController {
   constructor(
+    @Inject('AUTH_SERVICE') private readonly authClient: ClientKafka,
     private readonly authService: AuthService,
     private readonly userService: UserService,
   ) {}
 
+  async onModuleInit() {
+    this.authClient.subscribeToResponseOf('auth.create');
+    await this.authClient.connect();
+  }
+
   @Post('signup')
   async CreateUser(@Body() user: IUser) {
+    console.log('user :', user);
     try {
       await this.authService.createUser(user);
       return {

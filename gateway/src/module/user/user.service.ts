@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientKafka, ClientProxy } from '@nestjs/microservices';
 import { User } from './user.dto';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class UserService {
   constructor(
-    @Inject('AUTH') private readonly authClient: ClientProxy,
-    @Inject('USER') private readonly userClient: ClientProxy,
+    @Inject('AUTH_SERVICE') private readonly authClient: ClientKafka,
+    @Inject('USER_SERVICE') private readonly userClient: ClientKafka,
   ) {}
 
   async getUsers(): Promise<User[]> {
