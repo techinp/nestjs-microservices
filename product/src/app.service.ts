@@ -5,41 +5,36 @@ import { RpcException } from '@nestjs/microservices';
 @Injectable()
 export class AppService {
   private readonly products: Product[] = [
-    {
+    new Product({
       _id: 1,
       name: 'Snack',
       price: 100,
       quantity: 5,
-      createdAt: new Date(),
-    },
-    {
+    }),
+    new Product({
       _id: 2,
       name: 'Table',
       price: 1900,
       quantity: 5,
-      createdAt: new Date(),
-    },
-    {
+    }),
+    new Product({
       _id: 3,
       name: 'Chair',
       price: 1200,
       quantity: 1,
-      createdAt: new Date(),
-    },
-    {
+    }),
+    new Product({
       _id: 4,
       name: 'Apple',
       price: 60,
       quantity: 99,
-      createdAt: new Date(),
-    },
-    {
+    }),
+    new Product({
       _id: 5,
       name: 'TV',
       price: 9999,
       quantity: 2,
-      createdAt: new Date(),
-    },
+    }),
   ];
 
   getHello(): string {
@@ -54,6 +49,23 @@ export class AppService {
     try {
       const product = this.products.find((item) => item._id === _id);
       if (product) return product;
+      else {
+        throw new RpcException({
+          code: 400,
+          message: 'Product not found',
+        });
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  findById(productIds: number[]): Product[] {
+    try {
+      const products = this.products.filter((item) =>
+        productIds.includes(item._id),
+      );
+      if (products.length === productIds.length) return products;
       else {
         throw new RpcException({
           code: 400,

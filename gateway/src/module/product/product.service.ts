@@ -21,10 +21,8 @@ export class ProductService {
       const product: Product = await lastValueFrom(
         this.productClient.send({ cmd: 'product/findOneById' }, parseInt(_id)),
       );
-      console.log('product :', product);
       return product;
     } catch (error) {
-      console.log('error :', error);
       throw error;
     }
   }

@@ -7,7 +7,7 @@ import { RpcException } from '@nestjs/microservices';
 export class AppService {
   private readonly users: User[] = [
     {
-      _id: 0,
+      _id: 1,
       username: 'admin',
       password: 'admin',
     },

@@ -20,9 +20,4 @@ export class ProductController {
       return error;
     }
   }
-
-  // @Get()
-  // getProfile(@GetPayload() payload: AuthPayload): AuthPayload {
-  // return payload;
-  // }
 }

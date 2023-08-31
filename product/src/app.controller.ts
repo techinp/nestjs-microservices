@@ -13,14 +13,23 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: 'product/getAll' })
-  getUsers(): Product[] {
+  getProducts(): Product[] {
     return this.appService.getProducts();
   }
 
   @MessagePattern({ cmd: 'product/findOneById' })
-  findOneByUsername(_id: number) {
+  findOneById(_id: number) {
     try {
       return this.appService.findOneById(_id);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @MessagePattern({ cmd: 'product/findById' })
+  findById(productIds: number[]) {
+    try {
+      return this.appService.findById(productIds);
     } catch (error) {
       throw error;
     }
