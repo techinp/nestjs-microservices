@@ -7,8 +7,8 @@ import { catchError, lastValueFrom, of } from 'rxjs';
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject('AUTH') private readonly authClient: ClientProxy,
-    @Inject('USER') private readonly userClient: ClientProxy,
+    @Inject('AUTH_SERVICE') private readonly authClient: ClientProxy,
+    @Inject('USER_SERVICE') private readonly userClient: ClientProxy,
   ) {}
 
   async createUser(data: IUser) {

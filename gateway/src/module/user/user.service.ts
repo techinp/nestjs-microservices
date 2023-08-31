@@ -6,8 +6,8 @@ import { lastValueFrom } from 'rxjs';
 @Injectable()
 export class UserService {
   constructor(
-    @Inject('AUTH') private readonly authClient: ClientProxy,
-    @Inject('USER') private readonly userClient: ClientProxy,
+    @Inject('AUTH_SERVICE') private readonly authClient: ClientProxy,
+    @Inject('USER_SERVICE') private readonly userClient: ClientProxy,
   ) {}
 
   async getUsers(): Promise<User[]> {
