@@ -1,40 +1,54 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { User } from './app.dto';
 import { IUser } from './app.interface';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
+import { lastValueFrom, Observable } from 'rxjs';
 
 @Injectable()
 export class AppService {
-  private readonly users: User[] = [
-    {
-      _id: 0,
-      username: 'admin',
-      password: 'admin',
-    },
-  ];
+  constructor(
+    @Inject('USER_SERVICE') private readonly userClient: ClientProxy,
+  ) {}
 
   getHello(): string {
     return 'Hello World!';
   }
 
-  createUser(user: IUser): User {
+  async createUser(data: IUser): Promise<User> {
     try {
-      const isDupUser = this.users.find(
-        (item) => item.username === user.username,
-      );
-      if (isDupUser) throw { message: 'Username already exists', status: 400 };
-
-      const _user: User = {
-        _id: this.users.length,
-        ...user,
-      };
-      this.users.push(_user);
-      return _user;
+      return await lastValueFrom(
+        this.userClient.send({ cmd: 'user/create' }, data),
+      )
+        .then((value) => {
+          return value;
+        })
+        .catch((err) => {
+          throw err;
+        });
     } catch (error) {
-      throw error;
+      throw new RpcException(error);
     }
   }
 
-  // signIn(user: IUser): User {
-  //   return _user;
-  // }
+  async signIn(data: IUser) {
+    try {
+      return await lastValueFrom(
+        this.userClient.send({ cmd: 'user/findOneByUsername' }, data.username),
+      )
+        .then((value: User) => {
+          console.log('value', value);
+          if (value.password === data.password) return value;
+          else
+            throw {
+              code: 400,
+              message: 'Password mismatch',
+            };
+        })
+        .catch((err) => {
+          throw err;
+        });
+    } catch (error) {
+      throw new RpcException(error);
+    }
+  }
 }

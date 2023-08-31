@@ -42,4 +42,19 @@ export class AppService {
       throw error;
     }
   }
+
+  findOneByUsername(username: string): User {
+    try {
+      const user = this.users.find((item) => item.username === username);
+      if (user) return user;
+      else {
+        throw new RpcException({
+          code: 400,
+          message: 'User not found',
+        });
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 }

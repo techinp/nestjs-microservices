@@ -1,8 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { User } from '../user/user.dto';
 import { IUser } from '../user/user.interface';
-import { catchError, lastValueFrom, of } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -13,24 +12,47 @@ export class AuthService {
 
   async createUser(data: IUser) {
     try {
-      // this.authClient.emit('auth.create', data).pipe(
-      //   catchError((val) => {
-      //     console.log('val', val);
-      //     return of({ error: val.message });
-      //   }),
-      // );
-      // this.userClient.emit('user.create', data);
-      // this.userClient.send({ cmd: 'user/create' }, { test: 2222 });
-      await lastValueFrom(this.userClient.send({ cmd: 'user/create' }, data))
+      await lastValueFrom(this.authClient.send({ cmd: 'auth/create' }, data))
         .then((value) => {
-          console.log('value', value);
+          return value;
         })
         .catch((err) => {
-          console.log('err', err);
           throw err;
         });
     } catch (error) {
-      console.log('error fff :', error);
+      throw error;
+    }
+  }
+
+  async signIn(data: IUser) {
+    try {
+      return await lastValueFrom(
+        this.authClient.send({ cmd: 'auth/signIn' }, data),
+      )
+        .then((value) => {
+          // Encode JWT Here
+          return value;
+        })
+        .catch((err) => {
+          throw err;
+        });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async validateUser(username: string) {
+    try {
+      return await lastValueFrom(
+        this.userClient.send({ cmd: 'user/findOneByUsername' }, username),
+      )
+        .then((value) => {
+          return value;
+        })
+        .catch((err) => {
+          throw err;
+        });
+    } catch (error) {
       throw error;
     }
   }

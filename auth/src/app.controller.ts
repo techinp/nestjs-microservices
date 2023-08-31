@@ -13,17 +13,24 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @EventPattern('auth.create')
-  createUser(data: IUser) {
+  @MessagePattern({ cmd: 'auth/create' })
+  async createUser(data: IUser) {
     try {
-      return this.appService.createUser(data);
+      const response = await this.appService.createUser(data);
+      return response;
     } catch (error) {
       throw error;
     }
   }
 
-  // @MessagePattern({ cmd: 'auth/signIn' })
-  // signInUser(): User {
-  //   return this.appService.signIn();
-  // }
+  @MessagePattern({ cmd: 'auth/signIn' })
+  async signIn(data: IUser) {
+    console.log('data :', data);
+    try {
+      const response = await this.appService.signIn(data);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

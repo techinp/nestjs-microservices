@@ -1,6 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { User } from '../user/user.dto';
 import { UserService } from '../user/user.service';
 import { IUser } from '../user/user.interface';
 
@@ -20,31 +19,20 @@ export class AuthController {
         status: 0,
       };
     } catch (error) {
-      console.log('error :', error);
       return error;
     }
   }
 
   @Post('signin')
-  async SignInUser(@Body() user: IUser) {
+  async SignInUser(@Body() data: IUser) {
+    console.log('data :', data);
     try {
-      const users = await this.userService.getUsers();
+      const response = await this.authService.signIn(data);
+      console.log('response :', response);
 
-      const isDupUser = users.find((item) => item.username === user.username);
-      if (isDupUser) return { message: 'Username already exists', status: 400 };
-
-      const _user: User = {
-        _id: users.length + 1,
-        ...user,
-      };
-
-      return await this.authService.createUser(_user);
+      return response;
     } catch (error) {
-      console.log('error :', error);
-      return {
-        message: 'Internal Error',
-        status: 500,
-      };
+      return error;
     }
   }
 }
