@@ -10,8 +10,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('all')
-  getUsers(@Req() req: any): Promise<User[]> {
-    console.log('req :', req.payload);
+  getUsers(): Promise<User[]> {
     return this.userService.getUsers();
   }
 

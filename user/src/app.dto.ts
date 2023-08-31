@@ -10,6 +10,4 @@ export class User implements IUser {
     this.username = data.username;
     this.password = data.password;
   }
-
-  // signIn() {}
 }

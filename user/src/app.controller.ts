@@ -14,7 +14,7 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: 'user/getAll' })
-  getUsers(data: any): User[] {
+  getUsers(): User[] {
     return this.appService.getUsers();
   }
 
