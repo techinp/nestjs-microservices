@@ -12,7 +12,7 @@ export class UserService {
 
   async getUsers(): Promise<User[]> {
     const users: User[] = await lastValueFrom(
-      this.userClient.send({ cmd: 'user/getAll' }, {}),
+      this.userClient.send({ cmd: 'user/getAll' }, { test: 'fff' }),
     );
     return users;
   }

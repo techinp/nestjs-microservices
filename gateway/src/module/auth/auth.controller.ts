@@ -21,10 +21,7 @@ export class AuthController {
       };
     } catch (error) {
       console.log('error :', error);
-      return {
-        message: 'Internal Error',
-        status: 500,
-      };
+      return error;
     }
   }
 

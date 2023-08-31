@@ -14,15 +14,19 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: 'user/getAll' })
-  getUsers(): User[] {
+  getUsers(data: any): User[] {
+    console.log('data getUsers:', data);
     return this.appService.getUsers();
   }
 
-  @EventPattern('user.create')
+  // @EventPattern('user.create')
+  @MessagePattern({ cmd: 'user/create' })
   createUser(data: IUser) {
+    console.log('data :', data);
     try {
       return this.appService.createUser(data);
     } catch (error) {
+      console.log('error ser/crea :', error);
       throw error;
     }
   }

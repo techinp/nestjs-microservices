@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from './app.dto';
 import { IUser } from './app.interfaec';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class AppService {
@@ -25,7 +26,11 @@ export class AppService {
       const isDupUser = this.users.find(
         (item) => item.username === user.username,
       );
-      if (isDupUser) throw { message: 'Username already exists', status: 400 };
+      if (isDupUser)
+        throw new RpcException({
+          code: 400,
+          message: 'Username already exists',
+        });
 
       const _user: User = {
         _id: this.users.length,
