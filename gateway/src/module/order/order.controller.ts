@@ -22,6 +22,8 @@ export class OrderController {
     }
   }
 
+  // ยกเลิกคำสั่งซื้อ
+  // เปลี่ยน status เป็น CANCEL
   @Put(':id')
   async cancelOrder(@Param('id') id: string) {
     try {
