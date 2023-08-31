@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { User } from './dto/user.dto';
+import { User } from './user.dto';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class UserService {
 
   async getUsers(): Promise<User[]> {
     const users: User[] = await lastValueFrom(
-      this.userClient.send({ cmd: 'user/get' }, {}),
+      this.userClient.send({ cmd: 'user/getAll' }, {}),
     );
     return users;
   }

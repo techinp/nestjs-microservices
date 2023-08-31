@@ -1,7 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { EventPattern } from '@nestjs/microservices';
-import { CreateUser, User } from './dto/user.dto';
+import { EventPattern, MessagePattern } from '@nestjs/microservices';
+import { User } from './app.dto';
+import { IUser } from './app.interface';
 
 @Controller()
 export class AppController {
@@ -12,9 +13,17 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @EventPattern('user.create')
-  getAnalytics(data: User) {
-    const user = new User(data);
-    return this.appService.createUser(user);
+  @EventPattern('auth.create')
+  createUser(data: IUser) {
+    try {
+      return this.appService.createUser(data);
+    } catch (error) {
+      throw error;
+    }
   }
+
+  // @MessagePattern({ cmd: 'auth/signIn' })
+  // signInUser(): User {
+  //   return this.appService.signIn();
+  // }
 }

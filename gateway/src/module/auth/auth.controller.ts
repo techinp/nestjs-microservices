@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateUser, User } from '../user/dto/user.dto';
+import { User } from '../user/user.dto';
 import { UserService } from '../user/user.service';
+import { IUser } from '../user/user.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -10,8 +11,25 @@ export class AuthController {
     private readonly userService: UserService,
   ) {}
 
-  @Post()
-  async CreateUser(@Body() user: CreateUser) {
+  @Post('signup')
+  async CreateUser(@Body() user: IUser) {
+    try {
+      await this.authService.createUser(user);
+      return {
+        message: 'Successfully Created',
+        status: 0,
+      };
+    } catch (error) {
+      console.log('error :', error);
+      return {
+        message: 'Internal Error',
+        status: 500,
+      };
+    }
+  }
+
+  @Post('signin')
+  async SignInUser(@Body() user: IUser) {
     try {
       const users = await this.userService.getUsers();
 

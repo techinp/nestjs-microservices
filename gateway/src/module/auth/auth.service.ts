@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { lastValueFrom } from 'rxjs';
-import { User } from '../user/dto/user.dto';
+import { User } from '../user/user.dto';
+import { IUser } from '../user/user.interface';
+import { catchError, of } from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -10,9 +11,18 @@ export class AuthService {
     @Inject('USER') private readonly userClient: ClientProxy,
   ) {}
 
-  async createUser(data: User): Promise<User> {
-    this.authClient.emit('user.create', data);
-    this.userClient.emit('user.create', data);
-    return data;
+  async createUser(data: IUser) {
+    try {
+      this.authClient.emit('auth.create', data).pipe(
+        catchError((val) => {
+          console.log('val', val);
+          return of({ error: val.message });
+        }),
+      );
+      this.userClient.emit('user.create', data);
+    } catch (error) {
+      console.log('error :', error);
+      throw { message: 'Username already exists', status: 400 };
+    }
   }
 }

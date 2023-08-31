@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { User } from './dto/user.dto';
+import { User } from './app.dto';
+import { IUser } from './app.interface';
 
 @Injectable()
 export class AppService {
@@ -15,12 +16,25 @@ export class AppService {
     return 'Hello World!';
   }
 
-  // getUsers(): User[] {
-  //   return this.users;
-  // }
+  createUser(user: IUser): User {
+    try {
+      const isDupUser = this.users.find(
+        (item) => item.username === user.username,
+      );
+      if (isDupUser) throw { message: 'Username already exists', status: 400 };
 
-  createUser(user: User): User {
-    this.users.push(user);
-    return user;
+      const _user: User = {
+        _id: this.users.length,
+        ...user,
+      };
+      this.users.push(_user);
+      return _user;
+    } catch (error) {
+      throw error;
+    }
   }
+
+  // signIn(user: IUser): User {
+  //   return _user;
+  // }
 }
