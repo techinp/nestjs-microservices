@@ -4,6 +4,7 @@ import { User } from './user.dto';
 import { Request } from 'express';
 import { AuthPayload } from '../auth/auth.interface';
 import { GetPayload } from '../auth/auth.decorator';
+import { Order } from '../order/order.dto';
 
 @Controller('user')
 export class UserController {
@@ -17,5 +18,10 @@ export class UserController {
   @Get()
   getProfile(@GetPayload() payload: AuthPayload): AuthPayload {
     return payload;
+  }
+
+  @Get('order-history')
+  async getOrderHistory(@GetPayload() payload: AuthPayload): Promise<Order[]> {
+    return await this.userService.getOrderHistory(payload._id);
   }
 }

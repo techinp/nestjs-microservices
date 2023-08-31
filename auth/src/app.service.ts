@@ -36,7 +36,6 @@ export class AppService {
         this.userClient.send({ cmd: 'user/findOneByUsername' }, data.username),
       )
         .then((value: User) => {
-          console.log('value', value);
           if (value.password === data.password) return value;
           else
             throw {

@@ -24,11 +24,10 @@ export class OrderService {
       this.orderClient.send({ cmd: 'order/cancel' }, parseInt(_id)),
     )
       .then((res) => {
-        console.log('res', res);
         return res;
       })
       .catch((err) => {
-        console.log('err', err);
+        throw err;
       });
   }
 

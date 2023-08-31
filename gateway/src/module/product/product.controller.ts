@@ -14,7 +14,6 @@ export class ProductController {
   @Get(':id')
   async GetProduct(@Param('id') id: string): Promise<Product> {
     try {
-      console.log('id :', id);
       return await this.productService.findOneById(id);
     } catch (error) {
       return error;

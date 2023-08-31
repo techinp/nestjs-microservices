@@ -73,8 +73,6 @@ export class AppService {
           throw err;
         });
 
-      console.log('products', products);
-
       if (products.length) {
         const order = new Order({
           user: data.user,
@@ -82,7 +80,6 @@ export class AppService {
           _id: this.orders.length + 1,
           status: OrderStatus.PENDING,
         });
-        console.log('order', order);
         this.orders.push(order);
         return order;
       }
@@ -124,6 +121,22 @@ export class AppService {
           message: 'Order not found',
         });
       }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  findByUserId(_id: number): Order[] {
+    try {
+      const orders = this.orders.filter((item) => item.user._id === _id);
+      return orders;
+      // if (orders)
+      // else {
+      // throw new RpcException({
+      // code: 400,
+      // message: 'Order not found',
+      // });
+      // }
     } catch (error) {
       throw error;
     }

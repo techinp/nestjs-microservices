@@ -14,7 +14,6 @@ export class AppController {
 
   @MessagePattern({ cmd: 'order/create' })
   createOrder(body: CreateOrderDto) {
-    console.log('body :', body);
     return this.appService.createOrder(body);
   }
 
@@ -40,6 +39,15 @@ export class AppController {
   findOneById(_id: number) {
     try {
       return this.appService.findOneById(_id);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @MessagePattern({ cmd: 'order/findByUserId' })
+  findByUserId(_id: number) {
+    try {
+      return this.appService.findByUserId(_id);
     } catch (error) {
       throw error;
     }

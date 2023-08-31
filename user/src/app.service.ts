@@ -33,7 +33,7 @@ export class AppService {
         });
 
       const _user: User = {
-        _id: this.users.length,
+        _id: this.users.length + 1,
         ...user,
       };
       this.users.push(_user);

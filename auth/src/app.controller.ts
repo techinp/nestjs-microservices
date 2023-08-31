@@ -25,7 +25,6 @@ export class AppController {
 
   @MessagePattern({ cmd: 'auth/signIn' })
   async signIn(data: IUser) {
-    console.log('data :', data);
     try {
       const response = await this.appService.signIn(data);
       return response;
