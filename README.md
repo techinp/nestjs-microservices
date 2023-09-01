@@ -11,7 +11,7 @@
 
 เวลา `Request` เราจะ `Request` เข้าที่ `PORT 3000` เท่านั้น
 
-โดย API ทั้งหมดจะมีตามนี้ หรือสามารถดูผ่าน [Postmant](https://documenter.getpostman.com/view/29465248/2s9Y5crzhC)
+โดย API ทั้งหมดจะมีตามนี้ หรือสามารถดูผ่าน [Postman](https://documenter.getpostman.com/view/29465248/2s9Y5crzhC)
 
 -----------------------------
 ทุกเส้นยกเว้น `Auth` จะ required `token` หมด สามารถใช้เป็น `Bearer admin` ได้
