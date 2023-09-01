@@ -14,7 +14,10 @@
 โดย API ทั้งหมดจะมีตามนี้ หรือสามารถดูผ่าน [Postman](https://documenter.getpostman.com/view/29465248/2s9Y5crzhC)
 
 -----------------------------
-ทุกเส้นยกเว้น `Auth` จะ required `token` หมด สามารถใช้เป็น `Bearer admin` ได้
+ทุกเส้นยกเว้น `Auth` จะ required `token` หมด \
+สามารถใช้เป็น `Bearer ${username}` ที่ Sign Up ได้ \
+หรือสามารถใช้เป็น `Bearer admin` ที่เป็นค่า Default ก็ได้เช่นกัน
+
 ### Auth
 1) Sign In = method: `POST` / url: `/auth/signin` / body: `{ username: string, password: string}`
 2) Sign Up = method: `POST` / url: `/auth/signup` / body: `{ username: string, password: string}`
